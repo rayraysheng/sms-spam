@@ -27,7 +27,7 @@ def predict_input(file, vect, model):
     return p, c # predicted outcome and certainty
 
 
-def main(args):
+def main():
     ###### Pre-Processing #####
     # open docs file and read its lines
     with open("../data/SMSSpamCollection", "r", encoding="utf8") as fh:
