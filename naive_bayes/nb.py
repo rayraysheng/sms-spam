@@ -3,13 +3,11 @@
 import numpy as np
 import scipy as sp
 import os
+import argparse
 
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
-
-
-# In[2]:
 
 
 # utilities
@@ -111,4 +109,10 @@ def main(args):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Description of your script')
+    parser.add_argument('arg1', type=str, help='Description of argument 1')
+    parser.add_argument('--arg2', type=int, default=0, help='Description of argument 2')
+    parser.add_argument('--arg3', action='store_true', help='Description of argument 3')
+    args = parser.parse_args()
+
     main(args)
