@@ -63,26 +63,29 @@ def main():
     in_files = []
 
     for f in os.listdir(in_path):
-        if os.path.isfile(os.path.join(in_path, f)):
-            in_files.append(os.path.join(in_path, f))
+        if(not f.endswith(".DS_Store")): # for cross-platform work
+            if os.path.isfile(os.path.join(in_path, f)):
+                in_files.append(os.path.join(in_path, f))
+
 
     ##### Predict #####
     results = [] # for the whole session
 
     for in_fn in in_files:
-        with open(in_fn, "r", encoding="utf8") as inf:
-            txt = inf.readlines()
-            
-        results.append(predict_input(txt, vectorizer, bnb))
-        
+        if(not in_fn.endswith(".DS_Store")):
+            with open(in_fn, "r", encoding="utf8") as fh:
+                txt = fh.readlines()
+
+            results.append(predict_input(txt, vectorizer, bnb))
+
 
     ##### Write Output #####
     out_path = "../output"
     out_files = []
 
-    for fn in in_files:
-        name = fn.split('\\')[-1]
-        out_files.append(name + "_results.csv")
+    for f in os.listdir(in_path):
+        if(not f.endswith(".DS_Store")): # for cross-platform work
+            out_files.append(f + "_results.csv")
 
     for file in out_files:
         out_fn = os.path.join(out_path, file)
@@ -90,13 +93,12 @@ def main():
         predictions = results[file_ind][0]
         certainty = results[file_ind][1]
 
-        with open(out_fn, 'w') as outf:
-        #f_out = open(out_fn, "w")
-            for i in range(len(txt)):
-                p = predictions[i].astype(str)
-                c = round(certainty[i], 2).astype(str)
-                outf.write(p + ',' + c + "\n")
-            outf.close()
+        f_out = open(out_fn, "w")
+        for i in range(len(txt)):
+            p = predictions[i].astype(str)
+            c = round(certainty[i], 2).astype(str)
+            f_out.write(p + ',' + c + "\n")
+        f_out.close()
 
         check = open(out_fn, "r")
         print(check.read())
