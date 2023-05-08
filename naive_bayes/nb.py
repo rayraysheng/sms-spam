@@ -29,9 +29,8 @@ def predict_input(file, vect, model):
 
 def main():
     ###### Pre-Processing #####
-    # open docs file and read its lines
-    with open("../data/SMSSpamCollection", "r", encoding="utf8") as fh:
-        lines = fh.readlines()  
+    with open("../data/SMSSpamCollection", "r", encoding="utf8") as tf:
+        lines = tf.readlines()  
 
     # dedupe the original data
     lines = list(set(lines))
@@ -67,17 +66,12 @@ def main():
         if os.path.isfile(os.path.join(in_path, f)):
             in_files.append(os.path.join(in_path, f))
 
-    in_fn = in_files[0]
-    with open(in_fn, "r", encoding="utf8") as fh:
-        txt = fh.readlines()
-
-
     ##### Predict #####
     results = [] # for the whole session
 
     for in_fn in in_files:
-        with open(in_fn, "r", encoding="utf8") as fh:
-            txt = fh.readlines()
+        with open(in_fn, "r", encoding="utf8") as inf:
+            txt = inf.readlines()
             
         results.append(predict_input(txt, vectorizer, bnb))
         
@@ -96,12 +90,13 @@ def main():
         predictions = results[file_ind][0]
         certainty = results[file_ind][1]
 
-        f_out = open(out_fn, "w")
-        for i in range(len(txt)):
-            p = predictions[i].astype(str)
-            c = round(certainty[i], 2).astype(str)
-            f_out.write(p + ',' + c + "\n")
-        f_out.close()
+        with open(out_fn, 'w') as outf:
+        #f_out = open(out_fn, "w")
+            for i in range(len(txt)):
+                p = predictions[i].astype(str)
+                c = round(certainty[i], 2).astype(str)
+                outf.write(p + ',' + c + "\n")
+            outf.close()
 
         check = open(out_fn, "r")
         print(check.read())
