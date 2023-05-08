@@ -94,6 +94,10 @@ def main():
         certainty = results[file_ind][1]
 
         f_out = open(out_fn, "w")
+        f_out.write("Prediction, Certainty" + "\n")
+        f_out.close()
+        
+        f_out = open(out_fn, "a")
         for i in range(len(txt)):
             p = predictions[i].astype(str)
             c = round(certainty[i], 2).astype(str)
