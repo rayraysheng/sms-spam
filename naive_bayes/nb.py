@@ -23,7 +23,7 @@ def predict_input(file, vect, model):
     mat_in = vect.transform(file)
     
     p = model.predict(mat_in)
-    c = np.max(bnb.predict_proba(mat_in), axis=1)
+    c = np.max(model.predict_proba(mat_in), axis=1)
     return p, c # predicted outcome and certainty
 
 
