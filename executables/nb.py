@@ -29,7 +29,7 @@ def predict_input(file, vect, model):
 
 def main():
     ###### Pre-Processing #####
-    with open("../data/SMSSpamCollection", "r", encoding="utf8") as tf:
+    with open("data/SMSSpamCollection", "r", encoding="utf8") as tf:
         lines = tf.readlines()  
 
     # dedupe the original data
@@ -59,7 +59,7 @@ def main():
 
 
     ###### Input File Processing #####
-    in_path = "../input"
+    in_path = "input"
     in_files = []
 
     for f in os.listdir(in_path):
@@ -80,7 +80,7 @@ def main():
 
 
     ##### Write Output #####
-    out_path = "../output"
+    out_path = "output"
     out_files = []
 
     for f in os.listdir(in_path):
